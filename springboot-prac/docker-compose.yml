@@ -1,0 +1,31 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8090:8090"
+    depends_on:
+      - postgres
+    networks:
+      - s-network
+
+  postgres:
+    image: postgres:17
+    hostname: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: docker
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-s-data:/var/lib/postgresql/data
+    networks:
+      - s-network
+
+networks:
+  s-network:
+    driver: bridge
+
+volumes:
+  postgres-s-data:
+
